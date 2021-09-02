@@ -5,21 +5,22 @@ This is the implementation code and instruction of the proposed work  *"SDN: Sem
 
 ## Semantic Decoupling Networks
 
-Temporal Language Grounding is one of the challenging cross-modal video understanding tasks, which aims at retrieving the most relevant video segment from an untrimmed video according to a natural language sentence.
-The existing method can be separated into two dominant types: proposal-free and proposal-basedmethods.
-Both two paradigms have respective characters. The former shows advantages on segment-levelinteraction while the latter has a strong ability on localizing timestamps flexibly.
+Temporal Language Grounding is one of the challenging cross-modal video understanding tasks, which aims at retrieving the most relevant video segment from an untrimmed video according to a natural language sentence. The existing method can be separated into two dominant types: proposal-based and proposal-free methods.  
 
-We propose a novel framework termed Semantic Decoupling Networks (SDN), which introduces the benefits of proposal-based methods into the proposal-free framework by exploring the coarse-to-fine semantics in videos. We also propose the Semantic Modeling Block (SMB) to capture thesemantics in decoupled video features and fuse the two modalities.
+However, the constant-scale candidates in proposal-based methods limit the localization precision and bring extra computing consumption. Contrastively, the proposal-free methods perform well on high-precision based on the fine-grained features but suffer from the lack of segment-level interactions, which causes degeneration when the video becomes complex.  
+
+We propose a novel framework termed Semantic Decoupling Network (SDN), which combines the advantages of proposal-based and proposal-free methods and overcome their defects. It contains three key components: Semantic Decoupling Module (SDM), Context Modeling Block (CMB), Cross-semantic Aggregation. By capturing the video-text contexts in multi-level semantics, the SDM and CMB effectively utilize the benefits of proposal-based methods. Meanwhile, the Cross-semantic Aggregation module maintains the merits of proposal-free methods that localizing timestamps precisely.
 
 ![avatar](fig/framework.png)
 
 <!-- **Insight of Our Work** -->
 ## Insight of Our Work
 
-1. We propose the Semantic Decoupling Module and the Semantic Modeling Block for temporal language grounding to explore the semantics in different video segments with multi-scales.  
-2. Based on the blocks we proposed, we build a novel proposal-free framework Semantic Decoupling Networks for TLG task that combines the benefits of both proposal-based and proposal-free methods by introducing the semantics in multi-scales video candidates. Since we just model the semantic features in different scales instead of generating many candidates, our SDN still maintains proposal-free methods' efficiency.
-3. We conduct extensive experiments on three public datasets in a comparable setting. The experimental results show that our SDN outperforms recent state-of-the-art approaches and demonstrate the rationality of motivation of the semantic modeling.
-  
+1. We propose the Semantic Decoupling Network, which inherits the benefits of proposal-based and proposal-free methods and overcomes their defects.
+2. To utilize the merits of proposal-based methods, we propose the Semantic Decoupling Module to decompose visual features and the Context Modeling Block to mine the contexts in each semantic branch.
+3. To maintain the advantages of proposal-free methods, we design the Cross-semantic Aggregation mechanism that integrates the three kinds of contexts into fine-grained features with plentiful semantics. It keeps the flexibility of temporal localization.
+4. Our SDN outperforms recent state-of-the-art approaches. The extensive experiments demonstrate the effectiveness of combining the two methods.
+
 # Training and Testing
 
 ## Running
@@ -84,6 +85,16 @@ Remember to change the dataset used at line 44 in main.py if you want to train t
 We sincerely thank the following works for their video features and codes.
 
 ```ref
+@inproceedings{mun_CVPR_2020,
+  author    = {Jonghwan Mun and
+               Minsu Cho and
+               Bohyung Han},
+  title     = {Local-Global Video-Text Interactions for Temporal Grounding},
+  booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
+  pages     = {10807--10816},
+  year      = {2020},
+}
+
 @inproceedings{rodriguez_WACV_2021,
   author    = {Cristian Rodriguez Opazo and
                Edison Marrese{-}Taylor and
@@ -96,14 +107,6 @@ We sincerely thank the following works for their video features and codes.
   pages     = {1078--1087},
   year      = {2021},
 }
-
-@inproceedings{mun_CVPR_2020,
-  author    = {Jonghwan Mun and
-               Minsu Cho and
-               Bohyung Han},
-  title     = {Local-Global Video-Text Interactions for Temporal Grounding},
-  booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
-  pages     = {10807--10816},
-  year      = {2020},
-}
 ​```
+
+```
