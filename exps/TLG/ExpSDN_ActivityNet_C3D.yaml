@@ -1,0 +1,116 @@
+
+## dataset block:dataset\tranforms\dataloader
+
+loader_config:
+  train:
+    dataset: "anet"
+    split: "train"
+    data_dir: $path to save *.pkl$
+    features_path: $path to *.hdf5$
+    ann_file_path: $path to *.json$
+    embeddings_path: $path to glove embedding files$
+    min_count: 1
+    feature_sample_num: 200
+    train_max_length: 30
+    test_max_length: 30
+    batch_size: 32
+    num_workers: 2
+
+  eval: 
+    dataset: "anet"
+    split: "val"
+    data_dir: $path to save *.pkl$
+    features_path: $path to *.hdf5$
+    ann_file_path: $path to *.json$
+    embeddings_path: $path to glove embedding files$
+    min_count: 1
+    feature_sample_num: 200
+    train_max_length: 30
+    test_max_length: 30
+    batch_size: 64
+    num_workers: 4
+
+  test: 
+    dataset: "anet"
+    split: "test"
+    data_dir: $path to save *.pkl$
+    features_path: $path to *.hdf5$
+    ann_file_path: $path to *.json$
+    embeddings_path: $path to glove embedding files$
+    min_count: 1
+    feature_sample_num: 200
+    train_max_length: 30
+    test_max_length: 30
+    batch_size: 64
+    num_workers: 4
+
+# root: ../data/seq2seq/
+# dict_loadpath: ./corpus_dicts.pkl
+
+
+## model config block: backbone\modeltype\using load?
+## backbone: in framework, support vgg only temporarily
+model:
+  arch: ExpSDN
+  arch_params: 
+    feature_sample_num: 200
+    feature_input_dim: 500
+    #SDM
+    decoupling_scene_width: 1
+    decoupling_action_width: 4
+    decoupling_event_width: 8
+    decoupling_scene_step: 1
+    decoupling_action_step: 2
+    decoupling_event_step: 4
+    #SMB
+    modeling_scene_width: 11
+    modeling_scene_depth: 5
+    modeling_action_width: 7
+    modeling_action_depth: 3
+    modeling_event_width: 3
+    modeling_event_depth: 1
+    #feature presentation
+    no_attw_regression: False # disable the attentive regression may increase the accuracy sometimes
+
+  loss_type: sdn_loss
+  loss_params: 
+    USE_ATTENTION_LOSS: True
+    USE_MID_LOSS: True
+
+## some model parameters is wider than current model.use load_no_strict to igore extra parameters.
+load_no_strict: true
+
+## process switchers block: the task output\epoch
+epochs: 30
+eval_epoch: 1
+train_log: ./log/train_SDN_anet_c3d_val1_val2.txt
+test_log: ./log/test_SDN_anet_c3d_val1_val2.txt
+output: ./results
+checkpoint_save: anet_c3d_val1_val2.ckpt
+best_model_save: anet_c3d_val1_val2.best
+
+## optimizer block
+optimizer: adam
+weight_decay: 1.0e-5
+grad_clip: 5
+lr: 1.0e-4
+
+no_wd_bias: True
+bias_lr_factor: 2 # used for bias param in scheduler when no_wd_bias is enabled (get_lr()*bias_lr_factor)
+
+lr_methods: ['fix'] 
+lr_starts: [1]
+lr_ends:   [1]
+lr_steps:  [30] 
+# optimizer_cfg:  #dict, extra config for optimizer, eg. Adam: betas([float, float]), eps(float)
+## observation block
+#logger
+print_frequency: 400
+#visalization
+vis: False
+vis_method: tensorboard
+vis_port: 6006
+
+
+## test
+seed: 0
