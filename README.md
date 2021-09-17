@@ -80,6 +80,13 @@ Remember to change the dataset used at line 44 in main.py if you want to train t
 
 ![avatar](fig/visualization.png)
 
+## Visualization of Cross-semantic Aggregation
+
+![avatar](fig/csa_1.png)
+![avatar](fig/csa_2.png)
+![avatar](fig/csa_3.png)
+![avatar](fig/csa_4.png)
+
 # Acknowledge
 
 We sincerely thank the following works for their video features and codes.
@@ -107,6 +114,16 @@ We sincerely thank the following works for their video features and codes.
   pages     = {1078--1087},
   year      = {2021},
 }
-​```
 
-```
+@inproceedings{zhang_AAAI_2020,
+  author    = {Songyang Zhang and
+               Houwen Peng and
+               Jianlong Fu and
+               Jiebo Luo},
+  title     = {Learning 2D Temporal Adjacent Networks for Moment Localization with
+               Natural Language},
+  booktitle = {AAAI Conference on Artificial Intelligence},
+  pages     = {12870--12877},
+  year      = {2020}
+}
+​```
